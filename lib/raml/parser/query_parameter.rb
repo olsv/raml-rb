@@ -7,7 +7,7 @@ module Raml
     class QueryParameter
       include Raml::Parser::Util
 
-      BASIC_ATTRIBUTES = %w[description type example required]
+      BASIC_ATTRIBUTES = %w[description type example required display_name minimum default maximum enum]
 
       attr_accessor :query_parameter, :attributes
 

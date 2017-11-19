@@ -54,10 +54,10 @@ module Raml
         end
 
         def parse_resource_types(resource_types)
-          resource_types.each do |type|
-            type.each do |name, type_attributes|
-              @resource_types[name] = type_attributes
-            end
+          resource_types = resource_types.reduce(Hash.new, :merge)
+          resource_types.each do |name, type_attributes|
+            type = type_attributes['type']
+            @resource_types[name] = type ? resource_types[type] : type_attributes
           end
         end
 

@@ -13,7 +13,7 @@ module Raml
 
       HTTP_METHODS = %w[get put post delete]
 
-      BASIC_ATTRIBUTES = %w[display_name description]
+      BASIC_ATTRIBUTES = %w[display_name description secured_by type]
 
       attr_accessor :parent_node, :resource, :trait_names, :attributes
       def_delegators :@parent, :traits, :resource_types
@@ -57,6 +57,10 @@ module Raml
           name = attributes['type']
           if name and !resource_types[name].nil?
             resource_attributes = prepare_attributes(resource_types[name])
+            resource_attributes = resource_attributes
+              .reject { |k| k =~ /(.*)\?$/ && !attributes[$1] }
+              .inject({}) { |acc, (k, v)| acc.merge(k.gsub(/\?$/, '') => v) }
+
             @attributes.delete('type')
             @attributes = resource_attributes.deep_merge(attributes)
           end

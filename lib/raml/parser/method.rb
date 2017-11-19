@@ -13,7 +13,7 @@ module Raml
       extend Forwardable
       include Raml::Parser::Util
 
-      BASIC_ATTRIBUTES = %w[display_name description headers]
+      BASIC_ATTRIBUTES = %w[display_name description headers secured_by]
 
       attr_accessor :method, :parent, :attributes
       def_delegators :@parent, :traits
